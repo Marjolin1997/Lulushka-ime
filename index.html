@@ -1,82 +1,254 @@
+```html
 <!DOCTYPE html>
 <html lang="sq">
 <head>
+
 <meta charset="UTF-8">
-<title>Lulushka & Mailoushka ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Një surprizë për ty ❤️</title>
 
 <style>
+
 body{
-    margin:0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg,#ff9a9e,#fad0c4);
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+margin:0;
+font-family:Arial, sans-serif;
+background:linear-gradient(135deg,#ff758c,#ff7eb3);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+overflow:hidden;
+color:white;
 }
 
 .container{
-    text-align:center;
-    background:white;
-    padding:40px;
-    border-radius:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+max-width:520px;
+padding:30px;
+animation:fadeIn 2s;
 }
 
-h1{
-    color:#ff4d6d;
-    font-size:32px;
+@keyframes fadeIn{
+from{opacity:0; transform:scale(0.9)}
+to{opacity:1; transform:scale(1)}
+}
+
+img{
+width:140px;
+border-radius:50%;
+margin-bottom:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+.chat{
+background:white;
+color:#333;
+padding:15px;
+border-radius:15px;
+margin:10px 0;
+animation:fade 0.8s;
+}
+
+@keyframes fade{
+from{opacity:0}
+to{opacity:1}
 }
 
 button{
-    padding:12px 25px;
-    margin:10px;
-    font-size:18px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
+padding:14px 26px;
+font-size:18px;
+border:none;
+border-radius:30px;
+cursor:pointer;
+margin:10px;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.1);
+}
+
+.surprise{
+background:white;
+color:#ff4d6d;
 }
 
 .yes{
-    background:#ff4d6d;
-    color:white;
+background:white;
+color:#ff4d6d;
 }
 
 .no{
-    background:#ccc;
+background:#eee;
+position:absolute;
 }
 
 .result{
-    margin-top:20px;
-    font-size:24px;
-    color:#ff4d6d;
-    font-weight:bold;
+font-size:26px;
+margin-top:20px;
+font-weight:bold;
 }
+
+.petal{
+position:absolute;
+animation:fall 8s linear infinite;
+}
+
+@keyframes fall{
+0%{transform:translateY(-10vh) rotate(0deg)}
+100%{transform:translateY(110vh) rotate(360deg)}
+}
+
 </style>
+
 </head>
 
 <body>
 
-<div class="container">
-<h1>A e do Lulushka Mailoushken e vet? ❤️</h1>
+<audio id="music" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8a3f8f99c.mp3" type="audio/mp3">
+</audio>
 
-<button class="yes" onclick="showLove()">Po ❤️</button>
-<button class="no" onclick="showNo()">Jo 😢</button>
+<div class="container">
+
+<!-- vendos foton tende ketu -->
+<img src="https://i.imgur.com/3ZQ3Z4B.png">
+
+<div id="chat"></div>
+
+<button class="surprise" onclick="showQuestion()">🌹 Kliko për surprizën</button>
+
+<div id="question" style="display:none">
+
+<h2>A e do Lulushka Mailoushken e vet? ❤️</h2>
+
+<button class="yes" onclick="love()">Po ❤️</button>
+<button class="no" id="noBtn">Jo 😢</button>
+
+</div>
 
 <div class="result" id="result"></div>
+
 </div>
 
 <script>
-function showLove(){
-    document.getElementById("result").innerHTML =
-    "Sigurisht që PO! ❤️ Lulushka e do shumë Mailoushken!";
+
+const messages=[
+"Përshëndetje Lulushka...",
+"Kam një pyetje shumë të rëndësishme për ty...",
+"Por duhet të më përgjigjesh sinqerisht..."
+];
+
+let i=0;
+
+function showChat(){
+
+if(i<messages.length){
+
+const div=document.createElement("div");
+div.className="chat";
+div.innerHTML=messages[i];
+
+document.getElementById("chat").appendChild(div);
+
+i++;
+
+setTimeout(showChat,1500);
+
 }
 
-function showNo(){
-    document.getElementById("result").innerHTML =
-    "Hmm... kjo nuk duket e vërtetë 😄";
 }
+
+showChat();
+
+function showQuestion(){
+
+document.getElementById("question").style.display="block";
+
+}
+
+function love(){
+
+document.getElementById("result").innerHTML="❤️ E dija! Lulushka e do shumë Mailoushken! ❤️";
+
+for(let i=0;i<120;i++){
+
+setTimeout(createHeart,i*20);
+
+}
+
+}
+
+const noBtn=document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover",()=>{
+
+const x=Math.random()*window.innerWidth;
+const y=Math.random()*window.innerHeight;
+
+noBtn.style.left=x+"px";
+noBtn.style.top=y+"px";
+
+});
+
+function createPetal(){
+
+const petal=document.createElement("div");
+
+petal.className="petal";
+
+petal.innerHTML="🌹";
+
+petal.style.left=Math.random()*100+"vw";
+
+petal.style.fontSize=Math.random()*20+15+"px";
+
+document.body.appendChild(petal);
+
+setTimeout(()=>{
+
+petal.remove();
+
+},8000);
+
+}
+
+setInterval(createPetal,400);
+
+function createHeart(){
+
+const heart=document.createElement("div");
+
+heart.innerHTML="❤️";
+
+heart.style.position="absolute";
+
+heart.style.left=Math.random()*100+"vw";
+
+heart.style.top=Math.random()*100+"vh";
+
+heart.style.fontSize="30px";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>{
+
+heart.remove();
+
+},2000);
+
+}
+
+document.body.addEventListener("click",()=>{
+
+document.getElementById("music").play();
+
+},{once:true});
+
 </script>
 
 </body>
+
 </html>
+```
